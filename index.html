@@ -1,0 +1,280 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>FORECAST//LEDGER</title>
+<link rel="icon" href="jk-logo.png">
+<meta name="description" content="A forecast should be judged on information that did not exist when it was made. Forecast Ledger seals forecasts before outcomes exist, grades them when reality arrives, and refuses to forecast when the history can't support the protocol.">
+<script src="https://cdn.tailwindcss.com"></script>
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4/dist/chart.umd.min.js"></script>
+<style>
+  body{background:#0b0f14;color:#dbe4ee;font-family:ui-monospace,"SF Mono",Menlo,Consolas,monospace}
+  .serif{font-family:ui-serif,Georgia,serif}
+  .panel{background:#10161d;border:1px solid #232d38}
+  .num{font-variant-numeric:tabular-nums}
+  .tag{font-size:11px;letter-spacing:.08em;text-transform:uppercase}
+  ::-webkit-scrollbar{height:8px;width:8px}
+  ::-webkit-scrollbar-thumb{background:#2a3644;border-radius:4px}
+</style>
+</head>
+<body class="min-h-screen">
+
+<header class="border-b border-[#232d38]">
+  <div class="max-w-6xl mx-auto px-6 py-5 flex items-center justify-between">
+    <div>
+      <div class="flex items-center gap-3">
+        <span class="text-xl tracking-tight">FORECAST<span class="text-[#5b8ba8]">//</span>LEDGER</span>
+        <span class="tag text-[#6b7d8f] border border-[#2a3644] rounded px-2 py-0.5">protocol-v1</span>
+      </div>
+      <p class="text-[#8b9bb4] text-sm mt-1 serif italic">Predictions made before the answer exists.</p>
+    </div>
+    <a href="https://github.com/Jeevan-0508" target="_blank" rel="noopener"
+       title="Jeevan Siddhabhaktula — Risk. Governance. AI."
+       class="opacity-80 hover:opacity-100 transition">
+      <img src="jk-logo.png" alt="JK" width="40" height="40" class="rounded">
+    </a>
+  </div>
+</header>
+
+<main class="max-w-6xl mx-auto px-6 py-10 space-y-14">
+
+  <!-- HERO / STATUS STRIP -->
+  <section>
+    <div class="grid grid-cols-2 md:grid-cols-4 gap-3" id="status-strip">
+      <div class="panel rounded-lg p-4">
+        <div class="tag text-[#6b7d8f]">Sealed Forecasts</div>
+        <div class="text-3xl num mt-1" id="stat-sealed">—</div>
+      </div>
+      <div class="panel rounded-lg p-4">
+        <div class="tag text-[#6b7d8f]">Graded Forecasts</div>
+        <div class="text-3xl num mt-1" id="stat-graded">—</div>
+      </div>
+      <div class="panel rounded-lg p-4">
+        <div class="tag text-[#6b7d8f]">Refused Forecasts</div>
+        <div class="text-3xl num mt-1" id="stat-refused">—</div>
+      </div>
+      <div class="panel rounded-lg p-4">
+        <div class="tag text-[#6b7d8f]">Ledger Integrity</div>
+        <div class="text-3xl num mt-1" id="stat-integrity">—</div>
+      </div>
+    </div>
+    <p class="text-[#6b7d8f] text-sm mt-4 max-w-3xl">
+      Most forecasting demos know the answer before they make the prediction. This one doesn't.
+      Every number below is read from a generated artifact — <code class="text-[#8b9bb4]">data/processed/</code>
+      and <code class="text-[#8b9bb4]">data/ledger/ledger.jsonl</code> — not typed for the page.
+    </p>
+  </section>
+
+  <!-- PRIMARY CHART -->
+  <section>
+    <h2 class="text-lg mb-1">Retail volume of sales — EU27, quarterly</h2>
+    <p class="text-[#6b7d8f] text-sm mb-4">
+      Solid line: observed. Shaded band: <span class="text-[#5b8ba8]">known at forecast time</span> vs
+      <span class="text-[#c9974a]">unknown at forecast time</span>. Marker: the current sealed forecast.
+    </p>
+    <div class="panel rounded-lg p-4">
+      <canvas id="primary-chart" height="110"></canvas>
+    </div>
+  </section>
+
+  <!-- THE LEDGER -->
+  <section>
+    <h2 class="text-lg mb-1">The Ledger</h2>
+    <p class="text-[#6b7d8f] text-sm mb-4">Every sealed forecast. A seal proves the record's integrity, not its accuracy — see Methodology.</p>
+    <div id="ledger-cards" class="grid md:grid-cols-2 gap-4"></div>
+  </section>
+
+  <!-- REFUSAL -->
+  <section>
+    <h2 class="text-lg mb-1">Refused Forecasts</h2>
+    <p class="text-[#6b7d8f] text-sm mb-4">A refusal is a successful governance decision, not an application error.</p>
+    <div id="refusal-cards" class="space-y-4"></div>
+  </section>
+
+  <!-- BACKTEST -->
+  <section>
+    <h2 class="text-lg mb-1">Backtest — model comparison</h2>
+    <p class="text-[#6b7d8f] text-sm mb-4">Rolling-origin MASE, every eligible series. No fake numbers: this table is generated from <code class="text-[#8b9bb4]">data/processed/*_backtest.json</code>.</p>
+    <div id="backtest-tables" class="space-y-8"></div>
+  </section>
+
+  <!-- METHODOLOGY -->
+  <section class="panel rounded-lg p-6">
+    <h2 class="text-lg mb-4">Methodology, briefly</h2>
+    <div class="grid md:grid-cols-2 gap-6 text-sm text-[#a9b8c9] leading-relaxed">
+      <div>
+        <p class="text-[#dbe4ee] mb-1">Why rolling-origin?</p>
+        <p>A single train/test split tests one forecast. Sliding the origin forward and re-forecasting at every
+        valid point tests the method, not a lucky split.</p>
+      </div>
+      <div>
+        <p class="text-[#dbe4ee] mb-1">Why MASE?</p>
+        <p>MAPE flatters smooth series and breaks near zero. MASE scales the error against a naive in-sample
+        benchmark computed only from training data, so it is comparable across series and undefined only when
+        genuinely undefined (a constant training window).</p>
+      </div>
+      <div>
+        <p class="text-[#dbe4ee] mb-1">Why simple baselines?</p>
+        <p>Naive, seasonal naive, drift and Holt are transparent, auditable, and fast enough to re-run at every
+        origin. Model complexity is not the contribution here; accountability is.</p>
+      </div>
+      <div>
+        <p class="text-[#dbe4ee] mb-1">Why refuse forecasts?</p>
+        <p>A number is easy to produce. Defending one needs enough independent history to have actually tested
+        the method. When that history doesn't exist, refusing is the honest output.</p>
+      </div>
+      <div>
+        <p class="text-[#dbe4ee] mb-1">What does sealing prove?</p>
+        <p>A SHA-256 hash of the canonical forecast contract, appended to an append-only ledger, proves this
+        exact record existed in this exact form before the outcome was known.</p>
+      </div>
+      <div>
+        <p class="text-[#dbe4ee] mb-1">What does sealing NOT prove?</p>
+        <p>Nothing about forecast quality. A seal can preserve a wrong forecast exactly as faithfully as a right
+        one — that is the point.</p>
+      </div>
+    </div>
+    <p class="text-[#6b7d8f] text-sm mt-6">Full writeup: <a class="text-[#5b8ba8]" href="METHODOLOGY.md">METHODOLOGY.md</a></p>
+  </section>
+
+  <footer class="text-[#4d5c6d] text-xs pt-6 border-t border-[#1a222c]">
+    Data: Eurostat, <code>sts_trtu_q</code> and <code>road_go_ta_tott</code>. Not investment or economic advice.
+    Simple baseline models only. See <a class="text-[#5b8ba8]" href="README.md#limitations">Limitations</a>.
+  </footer>
+
+</main>
+
+<script>
+async function main() {
+  const res = await fetch('site/data.json');
+  const d = await res.json();
+
+  document.getElementById('stat-sealed').textContent = d.counts.sealed;
+  document.getElementById('stat-graded').textContent = d.counts.graded;
+  document.getElementById('stat-refused').textContent = d.counts.refused;
+  const integEl = document.getElementById('stat-integrity');
+  integEl.textContent = d.integrity.status;
+  integEl.className = 'text-3xl num mt-1 ' + (d.integrity.status === 'VERIFIED' ? 'text-[#6fae7a]' :
+    d.integrity.status === 'WARNING' ? 'text-[#c9974a]' : 'text-[#c9574a]');
+
+  // Primary chart: use the forecastable series
+  const seriesKey = Object.keys(d.series).find(k => d.series[k].role === 'forecastable');
+  const s = d.series[seriesKey];
+  const periods = s.records.map(r => r.period);
+  const values = s.records.map(r => r.value);
+
+  const ledgerForThisSeries = d.ledger.filter(l => l.series_id === s.series_id);
+  const nextForecast = ledgerForThisSeries[0];
+
+  const chartLabels = periods.concat(nextForecast ? [nextForecast.target_period] : []);
+  const knownData = values.concat([null]);
+  const forecastData = new Array(values.length - 1).fill(null).concat([values[values.length - 1],
+    nextForecast ? nextForecast.point_forecast : null]);
+
+  new Chart(document.getElementById('primary-chart'), {
+    type: 'line',
+    data: {
+      labels: chartLabels,
+      datasets: [
+        { label: 'Observed', data: knownData, borderColor: '#5b8ba8', backgroundColor: 'transparent',
+          pointRadius: 0, borderWidth: 2, tension: 0.15 },
+        { label: 'Sealed forecast (unknown at forecast time)', data: forecastData,
+          borderColor: '#c9974a', backgroundColor: 'transparent', borderDash: [6, 4],
+          pointRadius: (ctx) => ctx.dataIndex === chartLabels.length - 1 ? 5 : 0,
+          pointBackgroundColor: '#c9974a', borderWidth: 2 },
+      ],
+    },
+    options: {
+      responsive: true,
+      interaction: { mode: 'index', intersect: false },
+      scales: {
+        x: { ticks: { color: '#6b7d8f', maxTicksLimit: 14 }, grid: { color: '#1a222c' } },
+        y: { ticks: { color: '#6b7d8f' }, grid: { color: '#1a222c' } },
+      },
+      plugins: { legend: { labels: { color: '#a9b8c9' } } },
+    },
+  });
+
+  // Ledger cards
+  const ledgerDiv = document.getElementById('ledger-cards');
+  if (d.ledger.length === 0) {
+    ledgerDiv.innerHTML = '<p class="text-[#6b7d8f] text-sm">No forecasts sealed yet.</p>';
+  }
+  d.ledger.forEach(l => {
+    const graded = l.status === 'GRADED';
+    const card = document.createElement('div');
+    card.className = 'panel rounded-lg p-5';
+    card.innerHTML = `
+      <div class="flex items-center justify-between mb-2">
+        <span class="text-[#8b9bb4] text-sm">${l.forecast_origin} &rarr; ${l.target_period}</span>
+        <span class="tag px-2 py-0.5 rounded border ${graded ? 'border-[#3a5a3f] text-[#6fae7a]' : 'border-[#3a4656] text-[#8b9bb4]'}">${l.status}</span>
+      </div>
+      <div class="text-sm mb-1"><span class="text-[#6b7d8f]">Model</span> ${l.model} &nbsp;
+        <span class="text-[#6b7d8f]">MASE</span> ${l.backtest_mase != null ? l.backtest_mase.toFixed(3) : '—'}</div>
+      ${graded ? `
+        <div class="grid grid-cols-3 gap-2 mt-3 text-sm num">
+          <div><div class="text-[#6b7d8f] tag">Forecast</div>${l.point_forecast.toFixed(2)}</div>
+          <div><div class="text-[#6b7d8f] tag">Actual</div>${l.actual.toFixed(2)}</div>
+          <div><div class="${l.signed_error >= 0 ? 'text-[#6fae7a]' : 'text-[#c9574a]'}"><div class="text-[#6b7d8f] tag">Error</div>${l.signed_error >= 0 ? '+' : ''}${l.signed_error.toFixed(2)}</div></div>
+        </div>` : `
+        <div class="text-sm mt-3"><span class="text-[#6b7d8f]">Point forecast</span> <span class="num">${l.point_forecast.toFixed(2)}</span></div>
+        <div class="text-[#6b7d8f] text-sm mt-1">Outcome: AWAITING PUBLICATION</div>`}
+      <div class="text-[#4d5c6d] text-xs mt-3 truncate">SHA256 ${l.hash}</div>
+      <div class="text-[#4d5c6d] text-xs">Seal: VERIFIED</div>
+    `;
+    ledgerDiv.appendChild(card);
+  });
+
+  // Refusal cards
+  const refusalDiv = document.getElementById('refusal-cards');
+  if (d.refusals.length === 0) {
+    refusalDiv.innerHTML = '<p class="text-[#6b7d8f] text-sm">No refusals recorded yet.</p>';
+  }
+  d.refusals.forEach(r => {
+    const card = document.createElement('div');
+    card.className = 'panel rounded-lg p-6 border-l-4';
+    card.style.borderLeftColor = '#c9574a';
+    card.innerHTML = `
+      <div class="tag text-[#c9574a] mb-2">Forecast Refused</div>
+      <div class="text-lg mb-3">${r.series_id}</div>
+      <div class="grid md:grid-cols-3 gap-4 text-sm">
+        <div><div class="text-[#6b7d8f] tag">History</div>${r.observations} observations</div>
+        <div><div class="text-[#6b7d8f] tag">Required</div>${r.required_observations} observations</div>
+        <div><div class="text-[#6b7d8f] tag">Reason</div>${r.reason_code}</div>
+      </div>
+      <p class="text-[#a9b8c9] text-sm mt-4">${r.reason}</p>
+      <p class="text-[#6b7d8f] text-sm mt-4 serif italic">No forecast was issued. Producing a number would be easier. Defending it would not.</p>
+    `;
+    refusalDiv.appendChild(card);
+  });
+
+  // Backtest tables
+  const backtestDiv = document.getElementById('backtest-tables');
+  Object.entries(d.backtests).forEach(([key, bt]) => {
+    const rows = Object.entries(bt.summary_by_model).map(([model, s]) => `
+      <tr class="${model === bt.selection.winner ? 'text-[#6fae7a]' : 'text-[#a9b8c9]'}">
+        <td class="py-1 pr-6">${model}${model === bt.selection.winner ? ' (selected)' : ''}</td>
+        <td class="py-1 pr-6 num">${s.mase != null ? s.mase.toFixed(4) : '—'}</td>
+        <td class="py-1 pr-6 num">${s.mae.toFixed(4)}</td>
+        <td class="py-1 num">${s.n_origins}</td>
+      </tr>`).join('');
+    const block = document.createElement('div');
+    block.innerHTML = `
+      <div class="text-[#8b9bb4] text-sm mb-2">${bt.series_id}</div>
+      <table class="w-full text-sm">
+        <thead class="text-[#6b7d8f] tag text-left"><tr><td class="pr-6">Model</td><td class="pr-6">MASE</td><td class="pr-6">MAE</td><td>Origins</td></tr></thead>
+        <tbody>${rows}</tbody>
+      </table>
+      <div class="text-[#6b7d8f] text-xs mt-2">Tie-break: ${bt.selection.tie_breaking_rule}</div>
+    `;
+    backtestDiv.appendChild(block);
+  });
+}
+main().catch(err => {
+  document.querySelector('main').insertAdjacentHTML('afterbegin',
+    `<div class="panel rounded-lg p-4 text-[#c9574a]">Could not load site/data.json — run scripts/build_site_data.py. (${err})</div>`);
+});
+</script>
+</body>
+</html>

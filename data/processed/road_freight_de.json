@@ -1,0 +1,121 @@
+{
+  "dataset": "road_go_ta_tott",
+  "series_id": "road_go_ta_tott.DE.TOTAL.TOTAL.MIO_TKM",
+  "geo": "DE",
+  "unit": "MIO_TKM",
+  "frequency": "annual",
+  "role": "refusal_demo",
+  "description": "Road freight transport, Germany, total, million tonne-kilometres, annual",
+  "dataset_updated": "2026-07-30T23:00:00+0200",
+  "fetched_at": "2026-09-13T18:04:21.115700+00:00",
+  "records": [
+    {
+      "period": "1999",
+      "value": 278427.0
+    },
+    {
+      "period": "2000",
+      "value": 280708.0
+    },
+    {
+      "period": "2001",
+      "value": 288964.0
+    },
+    {
+      "period": "2002",
+      "value": 285214.0
+    },
+    {
+      "period": "2003",
+      "value": 290745.0
+    },
+    {
+      "period": "2004",
+      "value": 303752.0
+    },
+    {
+      "period": "2005",
+      "value": 310103.0
+    },
+    {
+      "period": "2006",
+      "value": 330016.0
+    },
+    {
+      "period": "2007",
+      "value": 343447.0
+    },
+    {
+      "period": "2008",
+      "value": 341532.0
+    },
+    {
+      "period": "2009",
+      "value": 307547.0
+    },
+    {
+      "period": "2010",
+      "value": 313104.0
+    },
+    {
+      "period": "2011",
+      "value": 323833.0
+    },
+    {
+      "period": "2012",
+      "value": 307009.0
+    },
+    {
+      "period": "2013",
+      "value": 305744.0
+    },
+    {
+      "period": "2014",
+      "value": 310142.0
+    },
+    {
+      "period": "2015",
+      "value": 314816.0
+    },
+    {
+      "period": "2016",
+      "value": 315774.0
+    },
+    {
+      "period": "2017",
+      "value": 313149.0
+    },
+    {
+      "period": "2018",
+      "value": 316772.0
+    },
+    {
+      "period": "2019",
+      "value": 311875.0
+    },
+    {
+      "period": "2020",
+      "value": 304613.0
+    },
+    {
+      "period": "2021",
+      "value": 307272.0
+    },
+    {
+      "period": "2022",
+      "value": 303948.0
+    },
+    {
+      "period": "2023",
+      "value": 286408.0
+    },
+    {
+      "period": "2024",
+      "value": 280840.0
+    },
+    {
+      "period": "2025",
+      "value": 277374.0
+    }
+  ]
+}

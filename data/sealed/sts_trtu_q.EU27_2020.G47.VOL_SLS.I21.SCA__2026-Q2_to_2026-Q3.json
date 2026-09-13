@@ -1,0 +1,32 @@
+{
+  "event": "SEALED",
+  "sealed_at": "2026-09-13T18:05:33.206820+00:00",
+  "contract": {
+    "forecast_id": "sts_trtu_q.EU27_2020.G47.VOL_SLS.I21.SCA::2026-Q2_to_2026-Q3",
+    "dataset": "sts_trtu_q",
+    "series_id": "sts_trtu_q.EU27_2020.G47.VOL_SLS.I21.SCA",
+    "geo": "EU27_2020",
+    "unit": "I21",
+    "data_vintage": "2026-09-12T11:00:00+0200",
+    "fetched_at": "2026-09-13T18:04:20.611197+00:00",
+    "forecast_origin": "2026-Q2",
+    "target_period": "2026-Q3",
+    "horizon": 1,
+    "model": "Drift",
+    "model_parameters": {},
+    "training_window_start": "2000-Q1",
+    "training_window_end": "2026-Q2",
+    "training_observation_count": 106,
+    "backtest_mase": 0.7169182267939247,
+    "eligibility_status": "ELIGIBLE",
+    "eligibility_reason_code": "OK",
+    "point_forecast": 105.27714285714286,
+    "created_at": "2026-09-13T18:05:33.206449+00:00",
+    "code_version": "dev",
+    "config_version": "protocol-v1",
+    "input_data_hash": "3a911b731d38e89cfc77a798e4f9bf33d90f63aa452198d31357dfa10da16619"
+  },
+  "hash": "10749b9297647545bbfccc708e4faa075455b6254472e4be232f1e3760d6ed02",
+  "config_version": "protocol-v1",
+  "status": "AWAITING_OUTCOME"
+}

@@ -1,0 +1,37 @@
+{
+  "generated_by": "scripts/fetch.py",
+  "series": [
+    {
+      "dataset": "sts_trtu_q",
+      "series_id": "sts_trtu_q.EU27_2020.G47.VOL_SLS.I21.SCA",
+      "geo": "EU27_2020",
+      "unit": "I21",
+      "frequency": "quarterly",
+      "first_observation": "2000-Q1",
+      "last_observation": "2026-Q2",
+      "observation_count": 106,
+      "missing_count": 0,
+      "largest_gap": 0,
+      "dataset_updated": "2026-09-12T11:00:00+0200",
+      "fetched_at": "2026-09-13T18:04:20.611197+00:00",
+      "role": "forecastable",
+      "description": "Retail trade volume of sales, EU27, index 2021=100, seasonally & calendar adjusted"
+    },
+    {
+      "dataset": "road_go_ta_tott",
+      "series_id": "road_go_ta_tott.DE.TOTAL.TOTAL.MIO_TKM",
+      "geo": "DE",
+      "unit": "MIO_TKM",
+      "frequency": "annual",
+      "first_observation": "1999",
+      "last_observation": "2025",
+      "observation_count": 27,
+      "missing_count": 0,
+      "largest_gap": 0,
+      "dataset_updated": "2026-07-30T23:00:00+0200",
+      "fetched_at": "2026-09-13T18:04:21.115700+00:00",
+      "role": "refusal_demo",
+      "description": "Road freight transport, Germany, total, million tonne-kilometres, annual"
+    }
+  ]
+}
