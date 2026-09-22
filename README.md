@@ -1,6 +1,18 @@
+<p align="center"><img src="assets/jk-brand-banner.png" alt="Jeevan Siddhabhaktula — Risk. Governance. AI." width="280"></p>
+
+<div align="center">
+
 # FORECAST//LEDGER
 
-**Live:** https://jeevan-0508.github.io/Forecast-Ledger/
+**A forecasting system that seals its predictions before the outcome exists, and refuses to
+forecast when the history can't support the claim.**
+
+[![Live Demo](https://img.shields.io/badge/Live%20Demo-jeevan--0508.github.io-38bdf8?style=for-the-badge)](https://jeevan-0508.github.io/Forecast-Ledger/)
+[![License](https://img.shields.io/badge/License-MIT-22c55e?style=for-the-badge)](LICENSE)
+[![Tests](https://img.shields.io/badge/Tests-59_passing-22c55e?style=for-the-badge)](tests)
+[![Stack](https://img.shields.io/badge/Stack-Python%20%7C%20Eurostat-818cf8?style=for-the-badge)](#architecture)
+
+</div>
 
 Most forecasting demos know the answer before they make the prediction.
 
@@ -138,30 +150,57 @@ python scripts/build_site_data.py
 
 ## Architecture
 
-```
-EUROSTAT
-   |
-VALIDATE
-   |
-ELIGIBILITY ----- REFUSED --> LEDGER
-   |
-BACKTEST
-   |
-SELECT
-   |
-FORECAST
-   |
-SEAL
-   |
-LEDGER
-   |
-WAIT
-   |
-OBSERVATION
-   |
-GRADE
-   |
-LEDGER
+```mermaid
+flowchart TD
+    subgraph FETCH["Fetch & validate"]
+        E["src/data/eurostat.py
+pull EU27 series, validate schema"]
+    end
+
+    subgraph GATE["Eligibility"]
+        G["src/eligibility/gate.py
+min history length, gap checks
+returns pass or REFUSED + reason"]
+    end
+
+    subgraph BT["Backtest & select"]
+        R["src/backtest/rolling.py
+rolling-origin backtest, no leakage"]
+        M["src/backtest/metrics.py
+MASE per candidate model"]
+        S["src/backtest/selection.py
+pick lowest-MASE model
+tie-break is reproducible"]
+    end
+
+    subgraph SEAL["Seal"]
+        FC["src/forecasting/models.py
+Naive / Drift / Seasonal-Naive / MA"]
+        C["src/ledger/contract.py
+hash the forecast + inputs
+before the outcome exists"]
+    end
+
+    subgraph LEDGER["Ledger"]
+        ST["src/ledger/store.py
+append-only ledger.jsonl"]
+        V["src/ledger/verify.py
+re-hash every entry, check chain"]
+    end
+
+    subgraph GRADE["Wait, then grade"]
+        WT["Real observation
+publishes for the sealed period"]
+        GR["src/grading/grade.py
+compare sealed forecast to reality
+never touches the original seal"]
+    end
+
+    E --> G
+    G -->|REFUSED| ST
+    G -->|eligible| R --> M --> S --> FC --> C --> ST
+    ST --> V
+    ST --> WT --> GR --> ST
 ```
 
 ## Limitations
