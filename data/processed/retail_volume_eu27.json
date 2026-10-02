@@ -6,8 +6,8 @@
   "frequency": "quarterly",
   "role": "forecastable",
   "description": "Retail trade volume of sales, EU27, index 2021=100, seasonally & calendar adjusted",
-  "dataset_updated": "2026-09-12T11:00:00+0200",
-  "fetched_at": "2026-09-13T18:04:20.611197+00:00",
+  "dataset_updated": "2026-10-02T11:00:00+0200",
+  "fetched_at": "2026-10-02T11:49:52.393548+00:00",
   "records": [
     {
       "period": "2000-Q1",
