@@ -1,8 +1,8 @@
-name: quarterly refresh
+name: weekly refresh
 
 on:
   schedule:
-    - cron: "0 6 2 1,4,7,10 *"   # 06:00 UTC on the 2nd of Jan/Apr/Jul/Oct
+    - cron: "0 6 * * 1"   # 06:00 UTC every Monday
   workflow_dispatch: {}
 
 permissions:
@@ -24,8 +24,8 @@ jobs:
       - name: run tests
         run: pytest -q
 
-      - name: fetch latest data
-        run: python scripts/fetch.py
+      - name: fetch latest data from Eurostat
+        run: python scripts/fetch.py --force-refresh
 
       - name: grade any outstanding forecasts whose outcome now exists
         run: python scripts/grade.py
@@ -45,5 +45,5 @@ jobs:
           git config user.email "actions@users.noreply.github.com"
           git add data/ site/data.json
           git diff --cached --quiet && echo "nothing changed" && exit 0
-          git commit -m "quarterly refresh: fetch, grade, backtest, seal"
+          git commit -m "weekly refresh: fetch, grade, backtest, seal"
           git push

@@ -148,6 +148,11 @@ python scripts/verify.py         # independent ledger integrity check
 python scripts/build_site_data.py
 ```
 
+The same pipeline runs weekly in `.github/workflows/refresh.yml` and can be
+started manually with **Run workflow**. It force-refreshes Eurostat, grades only
+forecasts whose real outcome has arrived, preserves append-only seals, and exits
+without a commit when the source and ledger are unchanged.
+
 ## Architecture
 
 ```mermaid
