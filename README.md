@@ -5,6 +5,8 @@
 <p align="center">
   <a href="https://jeevan-0508.github.io/Forecast-Ledger/">Open the live ledger</a> ·
   <a href="#the-forecast-lifecycle">Forecast lifecycle</a> ·
+  <a href="METHODOLOGY.md">Methodology</a> ·
+  <a href="docs/getting-started.md">Technical docs</a> ·
   <a href="#run-locally">Run locally</a>
 </p>
 
