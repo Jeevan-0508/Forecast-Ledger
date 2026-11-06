@@ -62,3 +62,15 @@ python3 -m pip install -r requirements.txt
 The repository currently does not bundle a product screenshot; use the live ledger above as the visual source of truth.
 
 <p align="center"><sub>Built by <a href="https://github.com/Jeevan-0508">Jeevan Siddhabhaktula</a> · MIT licensed</sub></p>
+
+
+## What this project demonstrates
+
+- **Forecast governance** — separates forecast-time information from later outcomes so hindsight cannot quietly enter the claim.
+- **Reproducible evaluation** — seals the prediction, preserves provenance, and grades only when the evaluation protocol is supported.
+- **Honest refusal** — represents insufficient history or an unsupported evaluation window as a refusal rather than manufacturing confidence.
+- **Testable analytical practice** — the repository includes leakage, anti-cheating, contract, and hash-integrity tests around the ledger.
+
+## Maturity and boundaries
+
+FORECAST//LEDGER is an independently developed Python demonstrator using public Eurostat-derived data. It is a small, generated ledger—not a universal forecasting service, investment advice, or proof of forecast quality. The current output and evaluation state should be read together with [the methodology](METHODOLOGY.md), [the specification](SPEC.md), and [technical docs](docs/getting-started.md).
