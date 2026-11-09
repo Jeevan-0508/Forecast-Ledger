@@ -6,8 +6,8 @@
   "frequency": "quarterly",
   "role": "forecastable",
   "description": "Retail trade volume of sales, EU27, index 2021=100, seasonally & calendar adjusted",
-  "dataset_updated": "2026-11-02T11:00:00+0100",
-  "fetched_at": "2026-11-02T13:55:02.437356+00:00",
+  "dataset_updated": "2026-11-06T11:00:00+0100",
+  "fetched_at": "2026-11-09T14:27:18.365518+00:00",
   "records": [
     {
       "period": "2000-Q1",
@@ -111,7 +111,7 @@
     },
     {
       "period": "2006-Q2",
-      "value": 85.8
+      "value": 85.7
     },
     {
       "period": "2006-Q3",
@@ -215,7 +215,7 @@
     },
     {
       "period": "2012-Q4",
-      "value": 83.1
+      "value": 83.0
     },
     {
       "period": "2013-Q1",
@@ -271,7 +271,7 @@
     },
     {
       "period": "2016-Q2",
-      "value": 88.2
+      "value": 88.1
     },
     {
       "period": "2016-Q3",
@@ -383,7 +383,7 @@
     },
     {
       "period": "2023-Q2",
-      "value": 99.8
+      "value": 99.7
     },
     {
       "period": "2023-Q3",
@@ -415,7 +415,7 @@
     },
     {
       "period": "2025-Q2",
-      "value": 103.5
+      "value": 103.6
     },
     {
       "period": "2025-Q3",
@@ -427,11 +427,15 @@
     },
     {
       "period": "2026-Q1",
-      "value": 104.6
+      "value": 104.7
     },
     {
       "period": "2026-Q2",
-      "value": 105.0
+      "value": 105.2
+    },
+    {
+      "period": "2026-Q3",
+      "value": 104.9
     }
   ]
 }
