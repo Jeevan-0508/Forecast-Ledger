@@ -12,8 +12,8 @@
       "observation_count": 107,
       "missing_count": 0,
       "largest_gap": 0,
-      "dataset_updated": "2026-11-06T11:00:00+0100",
-      "fetched_at": "2026-11-09T14:27:18.365518+00:00",
+      "dataset_updated": "2026-11-14T11:00:00+0100",
+      "fetched_at": "2026-11-16T14:03:40.970315+00:00",
       "role": "forecastable",
       "description": "Retail trade volume of sales, EU27, index 2021=100, seasonally & calendar adjusted"
     },
